@@ -68,13 +68,25 @@ int view1(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
                 {
                     if(tmp[i].d_type == '\004')
                     {
-                        char *r_str = (char *)malloc( strlen(str) + strlen(filename) + strlen("/") );
+                        int n1 = strlen(str) + strlen(filename) + strlen("/") + 1;
+                        int n2 = strlen(r_head) + strlen("/") + strlen("/") + 1;
+
+                        char *r_str = (char *)malloc( n1 );
                         sprintf(r_str, "%s/%s", str, filename);
-                        char *new_r_head = (char *)malloc( strlen(r_head) + strlen("/") );
+                    
+                        char r_str_t[n1];             //设置暂存字符串接收malloc分配出来的内容
+                        strcpy(r_str_t, r_str);
+
+                        char *new_r_head = (char *)malloc( n2 );
                         sprintf(new_r_head, "%s--", r_head);
-                        //printf("%s\n",r_str);
-                        list_message(file_name, &get_message, view_mod, r_head);
-                        view1(r_str, r, show_hidden, view_mod, new_r_head);
+                    
+                        char new_r_head_t[n2];      //设置暂存字符串接收malloc分配出来的内容
+                        strcpy(new_r_head_t, new_r_head);
+
+                        list_message(filename, &get_message, view_mod, r_head);
+                        view1(r_str_t, r, show_hidden, view_mod, new_r_head_t);
+                        free(new_r_head);
+                        free(r_str);
                     }
                     else
                     {
@@ -93,13 +105,25 @@ int view1(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
             {
                 if(tmp[i].d_type == '\004')
                 {
-                    char *r_str = (char *)malloc( strlen(str) + strlen(filename) + strlen("/") );
+                    int n1 = strlen(str) + strlen(filename) + strlen("/") + 1;
+                    int n2 = strlen(r_head) + strlen("/") + strlen("/") + 1;
+
+                    char *r_str = (char *)malloc( n1 );
                     sprintf(r_str, "%s/%s", str, filename);
-                    char *new_r_head = (char *)malloc( strlen(r_head) + strlen("/") );
+
+                    char r_str_t[n1];             //设置暂存字符串接收malloc分配出来的内容
+                    strcpy(r_str_t, r_str);
+
+                    char *new_r_head = (char *)malloc( n2 );
                     sprintf(new_r_head, "%s--", r_head);
-                    //printf("%s\n",r_str);
+                    
+                    char new_r_head_t[n2];      //设置暂存字符串接收malloc分配出来的内容
+                    strcpy(new_r_head_t, new_r_head);
+
                     list_message(filename, &get_message, view_mod, r_head);
-                    view1(r_str, r, show_hidden, view_mod, new_r_head);
+                    view1(r_str_t, r, show_hidden, view_mod, new_r_head_t);
+                    free(new_r_head);
+                    free(r_str);
                 }
                 else
                 {
@@ -110,7 +134,6 @@ int view1(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
             {
                 list_message(filename, &get_message, view_mod, r_head);
             }
-                //list_message(filename, &get_message, view_mod, "");
         }
     }
 
