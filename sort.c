@@ -1,4 +1,4 @@
-#include "mysl.h"
+#include "myls.h"
 #include "view.c"
 int view(char *str, int sort_mod, int r, int show_hidden , int view_mod) {
     if(sort_mod == 0)
