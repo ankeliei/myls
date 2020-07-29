@@ -1,6 +1,6 @@
 #include "myls.h"
 #include "view.c"
-int view(char *str, int sort_mod, int r, int show_hidden , int view_mod) {
+int view(char *str, int sort_mod, int r, int show_hidden , int view_mod) {      //接收main传来的参数，选择不同的排序方式
     if(sort_mod == 0)
         view0(str, r, show_hidden, view_mod, "");
     if(sort_mod == 1)
