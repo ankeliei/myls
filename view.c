@@ -1,4 +1,4 @@
-#include "mysl.h"
+#include "myls.h"
 
 void file_type(const struct stat * get_message) {
     mode_t mode =  (*get_message).st_mode;
