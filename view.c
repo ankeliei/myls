@@ -50,7 +50,7 @@ void file_user_group(const struct stat * get_message) {
     struct group * grp;
     pwd = getpwuid(get_message->st_uid);
     grp = getgrgid(get_message->st_gid);
-    printf("%10s\t%-10s\t",pwd->pw_name, grp->gr_name);
+    printf("%10s %-10s",pwd->pw_name, grp->gr_name);
 }
 
 void file_time(const struct stat * get_message) {

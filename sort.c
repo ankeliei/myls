@@ -18,7 +18,6 @@ int view0(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
         fprintf(stderr,"cannot open directory:%s\n",str);
         return -1;
     }
-
     int n = 0;
 
     while( (ptr = readdir(dir)) !=NULL ){
