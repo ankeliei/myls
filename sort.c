@@ -140,7 +140,7 @@ int view1(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
     return 0;
 }
 
-int view2(char *str, int r, int show_hidden, int view_mod, char * r_head) {     //进行时间排序输出
+int view2(char *str, int r, int show_hidden, int view_mod, char * r_head) {     //进行修改时间排序输出
     DIR * dir;
     struct dirent *ptr;
 
@@ -159,7 +159,8 @@ int view2(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
     }
     closedir(dir);
     struct dirent tmp[n], t;
-    long *mtime[n], tt;          //存储时间戳的数组
+    //long *mtime[n], tt;          //存储时间戳的数组
+    struct tm chtime[n], tt;       //
 
     n = 0;
     dir=opendir(str);
@@ -172,39 +173,27 @@ int view2(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
 
         if(strcmp(filename, ".") && strcmp(filename, "..")) {
             memcpy(&tmp[n], ptr, sizeof(tmp[n]));
-            mtime[n] = (long)ctime(&(get_message.st_mtime));
-            //printf("%ld\n",mtime[n]);
+            memcpy(&chtime[n], localtime(&(get_message.st_mtime)), sizeof(tt));
             n = n + 1;
         }
     }
 
     int i=0;
-    for( i=1; i<n; i++){           //至此完成排序存储在tmp[]中
-        int j = 0;
-        for(j=0; j<i; j++){
-            if(strcmp(tmp[i].d_name, tmp[j].d_name) < 0) {
-                memcpy(&t, &tmp[j], sizeof(tmp[n]));
-                memcpy(&tmp[j], &tmp[i], sizeof(tmp[n]));
-                memcpy(&tmp[i], &t, sizeof(tmp[n]));
-                
-                tt = mtime[j];
-                mtime[j] = mtime[i];
-                mtime[i] = tt;
-            }
-        }
-    }
-
     for( i=1; i<n; i++){           //排序存储在tmp[]中
         int j = 0;
         for(j=0; j<i; j++){
-            if(mtime[i] < mtime[j] ) {
+            
+            time_t ti = mktime(&chtime[i]);
+            time_t tj = mktime(&chtime[j]);
+            
+            if( ti < tj ) {
                 memcpy(&t, &tmp[j], sizeof(tmp[n]));
                 memcpy(&tmp[j], &tmp[i], sizeof(tmp[n]));
                 memcpy(&tmp[i], &t, sizeof(tmp[n]));
 
-                tt = mtime[j];
-                mtime[j] = mtime[i];
-                mtime[i] = tt;
+                tt = chtime[j];
+                chtime[j] = chtime[i];
+                chtime[i] = tt;
             }
         }
     }
@@ -296,7 +285,9 @@ int view2(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
     return 0;
 };
 
-int view3(char *str, int r, int show_hidden, int view_mod){};
+int view3(char *str, int r, int show_hidden, int view_mod, char * r_head) {     //进行文件大小排序输出
+    
+};
 
 
 // int view_simple(char *str)
