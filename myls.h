@@ -4,9 +4,9 @@
 #include <dirent.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include<pwd.h>         //用户名的获取用到
-#include<grp.h>       //用户组的获取用到
-#include<time.h>     //文件修改时间
+#include <pwd.h>         //用户名的获取用到
+#include <grp.h>       //用户组的获取用到
+#include <time.h>     //文件修改时间
 #include <unistd.h>     //getcwd()函数需要
 
 #define PRINT_RED(s) printf("\033[0;31m%s\033[0;39m",s);
