@@ -1,15 +1,15 @@
 #include "myls.h"
 #include "view.c"
-int view(char *str, int sort_mod, int r, int show_hidden , int view_mod) {      //接收main传来的参数，选择不同的排序方式
+int view(char *str, int sort_mod, int R, int show_hidden , int view_mod, int r) {      //接收main传来的参数，选择不同的排序方式
     if(sort_mod == 0)
-        view0(str, r, show_hidden, view_mod, "");
+        view0(str, R, show_hidden, view_mod, "", r);
     if(sort_mod == 1)
-        view1(str, r, show_hidden, view_mod, "");
+        view1(str, R, show_hidden, view_mod, "", r);
     if(sort_mod == 2)
-        view2(str, r, show_hidden, view_mod, "");
+        view2(str, R, show_hidden, view_mod, "", r);
 }
 
-int view0(char *str, int r, int show_hidden, int view_mod, char * r_head) {     //进行文件名排序输出
+int view0(char *str, int R, int show_hidden, int view_mod, char * r_head, int r) {     //进行文件名排序输出
     DIR * dir;
     struct dirent *ptr;
 
@@ -43,7 +43,7 @@ int view0(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
     for( i=1; i<n; i++){           //至此完成排序存储在tmp[]中
         int j = 0;
         for(j=0; j<i; j++){
-            if(strcmp(tmp[i].d_name, tmp[j].d_name) < 0) {
+            if( (strcmp(tmp[i].d_name, tmp[j].d_name) < 0)^r ) {
                 memcpy(&t, &tmp[j], sizeof(tmp[n]));
                 memcpy(&tmp[j], &tmp[i], sizeof(tmp[n]));
                 memcpy(&tmp[i], &t, sizeof(tmp[n]));
@@ -61,7 +61,7 @@ int view0(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
         {
             if(filename[0] != '.')
             {
-                if(r)
+                if(R)
                 {
                     if(tmp[i].d_type == '\004')
                     {
@@ -81,7 +81,7 @@ int view0(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
                         strcpy(new_r_head_t, new_r_head);
 
                         list_message(filename, &get_message, view_mod, r_head);
-                        view0(r_str_t, r, show_hidden, view_mod, new_r_head_t);
+                        view0(r_str_t, R, show_hidden, view_mod, new_r_head_t, r);
                         free(new_r_head);
                         free(r_str);
                     }
@@ -98,7 +98,7 @@ int view0(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
         }
         if(show_hidden)
         {
-            if(r)
+            if(R)
             {
                 if(tmp[i].d_type == '\004')
                 {
@@ -118,7 +118,7 @@ int view0(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
                     strcpy(new_r_head_t, new_r_head);
 
                     list_message(filename, &get_message, view_mod, r_head);
-                    view0(r_str_t, r, show_hidden, view_mod, new_r_head_t);
+                    view0(r_str_t, R, show_hidden, view_mod, new_r_head_t, r);
                     free(new_r_head);
                     free(r_str);
                 }
@@ -138,7 +138,7 @@ int view0(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
     return 0;
 }
 
-int view1(char *str, int r, int show_hidden, int view_mod, char * r_head) {     //进行修改时间排序输出
+int view1(char *str, int R, int show_hidden, int view_mod, char * r_head, int r) {     //进行修改时间排序输出
     DIR * dir;
     struct dirent *ptr;
 
@@ -183,7 +183,7 @@ int view1(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
             time_t ti = mktime(&chtime[i]);
             time_t tj = mktime(&chtime[j]);
             
-            if( ti < tj ) {
+            if( (ti < tj)^r ) {
                 memcpy(&t, &tmp[j], sizeof(tmp[n]));
                 memcpy(&tmp[j], &tmp[i], sizeof(tmp[n]));
                 memcpy(&tmp[i], &t, sizeof(tmp[n]));
@@ -205,7 +205,7 @@ int view1(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
         {
             if(filename[0] != '.')
             {
-                if(r)
+                if(R)
                 {
                     if(tmp[i].d_type == '\004')
                     {
@@ -225,7 +225,7 @@ int view1(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
                         strcpy(new_r_head_t, new_r_head);
 
                         list_message(filename, &get_message, view_mod, r_head);
-                        view1(r_str_t, r, show_hidden, view_mod, new_r_head_t);
+                        view1(r_str_t, R, show_hidden, view_mod, new_r_head_t, r);
                         free(new_r_head);
                         free(r_str);
                     }
@@ -242,7 +242,7 @@ int view1(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
         }
         if(show_hidden)
         {
-            if(r)
+            if(R)
             {
                 if(tmp[i].d_type == '\004')
                 {
@@ -262,7 +262,7 @@ int view1(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
                     strcpy(new_r_head_t, new_r_head);
 
                     list_message(filename, &get_message, view_mod, r_head);
-                    view1(r_str_t, r, show_hidden, view_mod, new_r_head_t);
+                    view1(r_str_t, R, show_hidden, view_mod, new_r_head_t, r);
                     free(new_r_head);
                     free(r_str);
                 }
@@ -282,7 +282,7 @@ int view1(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
     return 0;
 };
 
-int view2(char *str, int r, int show_hidden, int view_mod, char * r_head) {     //进行文件大小排序输出
+int view2(char *str, int R, int show_hidden, int view_mod, char * r_head, int r) {     //进行文件大小排序输出
     DIR * dir;
     struct dirent *ptr;
 
@@ -323,7 +323,7 @@ int view2(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
     for( i=1; i<n; i++){           //先进行名称排序，覆盖文件同大小的情况
         int j = 0;
         for(j=0; j<i; j++){
-            if(strcmp(tmp[i].d_name, tmp[j].d_name) < 0) {
+            if( (strcmp(tmp[i].d_name, tmp[j].d_name)^r) < 0) {
                 memcpy(&t, &tmp[j], sizeof(tmp[n]));
                 memcpy(&tmp[j], &tmp[i], sizeof(tmp[n]));
                 memcpy(&tmp[i], &t, sizeof(tmp[n]));
@@ -338,7 +338,7 @@ int view2(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
     for( i=1; i<n; i++){           //排序存储在tmp[]中
         int j = 0;
         for(j=0; j<i; j++){    
-            if( size[i] < size[j] ) {
+            if( (size[i] < size[j])^r ) {
                 memcpy(&t, &tmp[j], sizeof(tmp[n]));
                 memcpy(&tmp[j], &tmp[i], sizeof(tmp[n]));
                 memcpy(&tmp[i], &t, sizeof(tmp[n]));
@@ -360,7 +360,7 @@ int view2(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
         {
             if(filename[0] != '.')
             {
-                if(r)
+                if(R)
                 {
                     if(tmp[i].d_type == '\004')
                     {
@@ -380,7 +380,7 @@ int view2(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
                         strcpy(new_r_head_t, new_r_head);
 
                         list_message(filename, &get_message, view_mod, r_head);
-                        view2(r_str_t, r, show_hidden, view_mod, new_r_head_t);
+                        view2(r_str_t, R, show_hidden, view_mod, new_r_head_t, r);
                         free(new_r_head);
                         free(r_str);
                     }
@@ -397,7 +397,7 @@ int view2(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
         }
         if(show_hidden)
         {
-            if(r)
+            if(R)
             {
                 if(tmp[i].d_type == '\004')
                 {
@@ -417,7 +417,7 @@ int view2(char *str, int r, int show_hidden, int view_mod, char * r_head) {     
                     strcpy(new_r_head_t, new_r_head);
 
                     list_message(filename, &get_message, view_mod, r_head);
-                    view2(r_str_t, r, show_hidden, view_mod, new_r_head_t);
+                    view2(r_str_t, R, show_hidden, view_mod, new_r_head_t, r);
                     free(new_r_head);
                     free(r_str);
                 }
