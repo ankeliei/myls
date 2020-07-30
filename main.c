@@ -14,6 +14,7 @@ int main(int argc,char **argv)
     {
         char str[256];
         getcwd(str, 256);
+        printf("=======%s======\n", str);
         view(str, sort_mod, R, show_hidden, view_mod, r);
     }
     else
@@ -63,6 +64,7 @@ int main(int argc,char **argv)
         if (single_options == 0) {
             char str[256];
             getcwd(str, 256);
+            printf("=======%s======\n", str);
             view(str, sort_mod, R, show_hidden, view_mod, r);
         }
     }
