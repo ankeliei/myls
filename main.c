@@ -38,6 +38,19 @@ int main(int argc,char **argv)
                         view_mod = 1;
                     if( argv[i][j] == 'r' )
                         r = 1;
+                    if( argv[i][j] == 'h' ) {
+                        printf("\t\tmyls命令--linux程序设计课程设计\n");
+                        printf("默认参数为：当前目录、短显示、不递归、不反序、名称排序。\n");
+                        printf("可选参数：\n");
+                        printf("\t–t(time)、-s(size)、-n(name)选项调整输出顺序，冲突时以命令行中最后出现的为准。\n");
+                        printf("\t-r(reverse)反次序输出。\n");
+                        printf("\t-a(all)显示隐藏文件，. 与 ..文件不显示。\n");
+                        printf("\t-l(long)长行输出文件的详细信息，文件大小自动化B、KB、MB。\n");
+                        printf("\t-R(recursive)递归输出目标目录下所有子目录及其下文件。\n");
+                        printf("\t-h(help)输出帮助信息，并立即退出。\n");
+                        printf("可以处理命令行输入的零至多个目标目录参数并加以显示。\n");
+                        return 0;
+                    }
                 }
             }
         }
