@@ -66,7 +66,6 @@ int main(int argc,char **argv)
                 else{
                     char str[256];
                     getcwd(str, 256);
-                    //strcat(str, argv[i]);
                     sprintf(str, "%s/%s", str, argv[i]);
                     printf("=======%s======\n", str);
                     view(str, sort_mod, R, show_hidden, view_mod, r);

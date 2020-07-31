@@ -132,8 +132,11 @@ int view0(char *str, int R, int show_hidden, int view_mod, char * r_head, int r)
                 list_message(filename, &get_message, view_mod, r_head);
             }
         }
+        
     }
-
+    char old_str[256];                          //重新chdir回命令行原始目录，修复命令行无法同时使用多个目录参数的bug
+    sprintf(old_str, "%s/..", str);
+    chdir(old_str);
     closedir(dir);
     return 0;
 }
